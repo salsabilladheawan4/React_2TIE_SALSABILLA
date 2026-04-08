@@ -1,0 +1,133 @@
+/* Styling untuk keseluruhan halaman */
+body {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #4a4a4a;
+    margin: 0;
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+
+/* Container utama */
+.card {
+    max-width: 600px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 
+        8px 8px 0px #ffb6c1,
+        0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 3px solid #333;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 
+        12px 12px 0px #ff69b4,
+        0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card::before {
+    content: '🌸';
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    font-size: 30px;
+    background: white;
+    padding: 0 10px;
+}
+
+/* Header utama */
+h1 {
+    color: #ff6b9d;
+    text-align: center;
+    font-size: 2.2em;
+    margin: 10px 0 25px 0;
+    text-shadow: 2px 2px 0px #ffd3e1;
+}
+
+h1::before {
+    content: '🎀 ';
+}
+
+h1::after {
+    content: ' 🎀';
+}
+
+/* Paragraf */
+p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #555;
+    background: #fff5f7;
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 2px dashed #ffb6c1;
+    margin: 15px 0;
+    transition: all 0.3s ease;
+}
+
+p:hover {
+    background: #ffe4e9;
+    border-style: solid;
+    transform: scale(1.01);
+}
+
+/* Garis pemisah */
+hr {
+    border: none;
+    height: 3px;
+    background: repeating-linear-gradient(
+        90deg,
+        #ffb6c1 0px,
+        #ffb6c1 15px,
+        transparent 15px,
+        transparent 25px
+    );
+    margin: 20px 0;
+    border-radius: 2px;
+}
+
+/* Greeting */
+small {
+    display: block;
+    font-style: italic;
+    text-align: center;
+    color: #888;
+    margin-top: 15px;
+    font-size: 13px;
+    background: #fff0f3;
+    padding: 8px 16px;
+    border-radius: 15px;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid #ffc0cb;
+}
+
+small::before {
+    content: '🌷 ';
+}
+
+small::after {
+    content: ' 🌷';
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .card {
+        margin: 15px;
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 1.6em;
+    }
+    
+    p {
+        font-size: 15px;
+    }
+}
