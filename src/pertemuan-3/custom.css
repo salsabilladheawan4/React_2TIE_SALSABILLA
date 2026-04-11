@@ -8,6 +8,7 @@ body {
     min-height: 100vh;
 }
 
+
 /* Container utama */
 .card {
     max-width: 600px;
@@ -15,7 +16,7 @@ body {
     background: #fff;
     padding: 30px;
     border-radius: 20px;
-    box-shadow: 
+    box-shadow:
         8px 8px 0px #ffb6c1,
         0 10px 30px rgba(0, 0, 0, 0.1);
     border: 3px solid #333;
@@ -23,12 +24,14 @@ body {
     transition: all 0.3s ease;
 }
 
+
 .card:hover {
     transform: translate(-4px, -4px);
-    box-shadow: 
+    box-shadow:
         12px 12px 0px #ff69b4,
         0 15px 35px rgba(0, 0, 0, 0.15);
 }
+
 
 .card::before {
     content: '🌸';
@@ -40,6 +43,7 @@ body {
     padding: 0 10px;
 }
 
+
 /* Header utama */
 h1 {
     color: #ff6b9d;
@@ -49,13 +53,16 @@ h1 {
     text-shadow: 2px 2px 0px #ffd3e1;
 }
 
+
 h1::before {
     content: '🎀 ';
 }
 
+
 h1::after {
     content: ' 🎀';
 }
+
 
 /* Paragraf */
 p {
@@ -70,11 +77,13 @@ p {
     transition: all 0.3s ease;
 }
 
+
 p:hover {
     background: #ffe4e9;
     border-style: solid;
     transform: scale(1.01);
 }
+
 
 /* Garis pemisah */
 hr {
@@ -90,6 +99,7 @@ hr {
     margin: 20px 0;
     border-radius: 2px;
 }
+
 
 /* Greeting */
 small {
@@ -108,13 +118,16 @@ small {
     border: 2px solid #ffc0cb;
 }
 
+
 small::before {
     content: '🌷 ';
 }
 
+
 small::after {
     content: ' 🌷';
 }
+
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
@@ -122,12 +135,13 @@ small::after {
         margin: 15px;
         padding: 20px;
     }
-    
+   
     h1 {
         font-size: 1.6em;
     }
-    
+   
     p {
         font-size: 15px;
     }
 }
+
