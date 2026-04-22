@@ -16,7 +16,7 @@ export default function Dashboard() {
                 </div>
 
                 <div id="dashboard-delivered" className="flex items-center space-x-5 bg-white rounded-lg shadow-md p-4">
-                    <div id="delivered-icon" className="bg-hijau rounded-full p-4">
+                    <div id="delivered-icon" className="bg-biru rounded-full p-4">
                         <FaTruck />
                     </div>
                     <div id="delivered-info" className="flex flex-col">

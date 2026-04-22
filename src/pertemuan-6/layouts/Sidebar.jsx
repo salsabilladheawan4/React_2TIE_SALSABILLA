@@ -30,7 +30,7 @@ export default function Sidebar() {
                     <div id="footer-text"className="text-white text-sm">
                         <span className="text-gray-600 flex items-center">Please organize your menus through button below!</span>
                         <div id="add-menu-button" className="flex justify-center items-center p-2 mt-3 bg-white rounded-md space-x-2">
-                            <span>Add Menus</span>
+                            <span className="text-gray-600 flex items-center">Add Menus</span>
                         </div>
                     </div>
                     <img id="footer-avatar" className="w-20 rounded-full" src="https://avatar.iran.liara.run/public/28" />
