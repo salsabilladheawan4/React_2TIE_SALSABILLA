@@ -1,8 +1,10 @@
+import { AiFillHome } from "react-icons/ai"; 
 import frameworkData from "./framework.json";
 
 export default function FrameworkList() {
   return (
     <div className="p-8">
+      <AiFillHome />
       {frameworkData.map((item) => (
         <div
           key={item.id}

@@ -25,11 +25,13 @@ function ResponsiveWidth() {
       </div>
 
       <div className="flex flex-col md:flex-row gap-4">
-        <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-full md:w-1/2 p-6 text-white rounded-2xl shadow-xl shadow-blue-100 transform hover:scale-[1.02] transition-transform duration-300">
+        <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-full md:w-1/2 p-6 text-white rounded-2xl shadow-xl shadow-blue-100 transform hover:scale-[1.02] 
+        transition-transform duration-300">
           <span className="font-bold uppercase tracking-widest text-xs opacity-80">Module A</span>
           <p className="text-lg font-semibold mt-1">Kolom Utama</p>
         </div>
-        <div className="bg-gradient-to-br from-cyan-500 to-blue-500 w-full md:w-1/2 p-6 text-white rounded-2xl shadow-xl shadow-cyan-100 transform hover:scale-[1.02] transition-transform duration-300">
+        <div className="bg-gradient-to-br from-cyan-500 to-blue-500 w-full md:w-1/2 p-6 text-white rounded-2xl shadow-xl shadow-cyan-100 transform hover:scale-[1.02] 
+        transition-transform duration-300">
           <span className="font-bold uppercase tracking-widest text-xs opacity-80">Module B</span>
           <p className="text-lg font-semibold mt-1">Kolom Pendamping</p>
         </div>
@@ -56,7 +58,8 @@ function ResponsiveLayout() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {boxes.map((box) => (
-          <div key={box.id} className={`bg-gradient-to-br ${box.color} p-8 text-white text-center rounded-2xl shadow-lg shadow-blue-100 group hover:-translate-y-2 transition-all duration-300`}>
+          <div key={box.id} className={`bg-gradient-to-br ${box.color} p-8 text-white text-center rounded-2xl shadow-lg shadow-blue-100 group hover:-
+          translate-y-2 transition-all duration-300`}>
             <p className="font-bold tracking-wider group-hover:scale-110 transition-transform">{box.title}</p>
             <div className="h-1 w-8 bg-white/30 mx-auto mt-2 rounded-full"></div>
           </div>
@@ -65,6 +68,8 @@ function ResponsiveLayout() {
     </div>
   );
 }
+
+
 
 // PARENT COMPONENT
 export default function ResponsiveDesign() {
