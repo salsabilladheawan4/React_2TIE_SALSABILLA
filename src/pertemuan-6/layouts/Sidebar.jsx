@@ -1,3 +1,6 @@
+import { AiOutlineUserAdd } from "react-icons/ai"; 
+import { AiOutlineUnorderedList } from "react-icons/ai"; 
+import { RiDashboardFill } from "react-icons/ri"; 
 export default function Sidebar() {
     return (
         <div id="sidebar" className="flex min-h-screen w-90 flex-col bg-white p-10 shadow-lg">
@@ -13,13 +16,19 @@ export default function Sidebar() {
             <div id="sidebar-menu" className="mt-10">
                 <ul id="menu-list"className="space-y-3">
                     <li>
-                        <div id="menu-1"className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">Dashboard</div>
+                        <div id="menu-1"className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
+                            <RiDashboardFill  className="mr-4 text-xl"/>
+                            Dashboard</div>
                       </li>
                     <li>
-                        <div id="menu-2"className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">Orders</div>
+                        <div id="menu-2"className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
+                            <AiOutlineUnorderedList  className="mr-4 text-xl" />
+                            Orders</div>
                       </li>
                       <li>
-                        <div id="menu-3"className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">Customers</div>
+                        <div id="menu-3"className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
+                            <AiOutlineUserAdd  className="mr-4 text-xl"/>
+                            Customers</div>
                       </li>
                 </ul>
             </div>
