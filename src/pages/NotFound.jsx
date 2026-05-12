@@ -5,8 +5,6 @@ import PageHeader from "../components/PageHeader";
 export default function NotFound() {
   return (
     <div className="min-h-screen flex flex-col bg-pink-50 font-sans">
-      <PageHeader />
-      
       <main className="flex-grow flex items-center justify-center px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center bg-white p-12 rounded-3xl shadow-xl max-w-2xl border border-pink-100">
           

@@ -1,30 +1,56 @@
-import { StrictMode } from "react";
-import "./assets/tailwind.css";
-import Sidebar from "./layouts/Sidebar";
-import Header from "./layouts/Header";
-import Dashboard from "./pages/Dashboard";
-import Orders from "./pages/Orders";
-import Customers from "./pages/Customers";
+import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import NotFound from "./pages/NotFound";
+import "./assets/tailwind.css";
+import Loading from "./components/Loading";
+
+/**
+ * 1. Lazy Loading Halaman Utama (Sedap Admin)
+ */
+const Dashboard = React.lazy(() => import("./pages/Dashboard"));
+const Orders = React.lazy(() => import("./pages/Orders"));
+const Customers = React.lazy(() => import("./pages/Customers"));
+const NotFound = React.lazy(() => import("./pages/NotFound"));
+
+/**
+ * 2. Lazy Loading Halaman Autentikasi
+ */
+const Login = React.lazy(() => import("./pages/auth/Login"));
+const Register = React.lazy(() => import("./pages/auth/Register"));
+const Forgot = React.lazy(() => import("./pages/auth/Forgot"));
+
+/**
+ * 3. Layouts
+ * MainLayout akan membungkus Sidebar Sedap dan Header.
+ */
+const MainLayout = React.lazy(() => import("./layouts/MainLayout"));
+const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"));
 
 function App() {
   return (
-    <div className="bg-gray-100 min-h-screen flex">
-      <div className="flex flex-row flex-1">
-        <Sidebar />
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <Header />
+    /* Menggunakan komponen Loading.jsx sebagai fallback saat transisi */
+    <Suspense fallback={<Loading />}>
+      <Routes>
+        
+        {/* GRUP SEDAP ADMIN (Dengan Sidebar & Header) */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/customers" element={<Customers />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
 
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/customers" element={<Customers />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </div>
-    </div>
+        {/* GRUP AUTENTIKASI (Halaman Login/Daftar) */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot" element={<Forgot />} />
+        </Route>
+
+        {/* HALAMAN TIDAK DITEMUKAN */}
+        
+        
+      </Routes>
+    </Suspense>
   );
 }
 

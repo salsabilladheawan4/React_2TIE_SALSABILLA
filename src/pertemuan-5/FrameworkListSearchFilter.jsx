@@ -2,13 +2,14 @@ import frameworkData from "./framework.json";
 import { useState } from "react";
 
 export default function FrameworkListSearchFilter() {
-
+  // Inisialisasi DataForm
   const [dataForm, setDataForm] = useState({
     searchTerm: "",
     selectedTag: "",
+    searchDev: "",
   });
 
-
+  // Inisialisasi Handle perubahan nilai input form
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setDataForm({
@@ -17,50 +18,48 @@ export default function FrameworkListSearchFilter() {
     });
   };
 
-  // 3. Ubah pemanggilan state menggunakan dataForm.searchTerm
+  // Filter logic - menggunakan dataForm.searchTerm dan dataForm.selectedTag
   const _searchTerm = dataForm.searchTerm.toLowerCase();
-
   const filteredFrameworks = frameworkData.filter((framework) => {
     const matchesSearch =
       framework.name.toLowerCase().includes(_searchTerm) ||
-      framework.description.toLowerCase().includes(_searchTerm);
+      framework.description.toLowerCase().includes(_searchTerm) ||
+      framework.details.developer.toLowerCase().includes(_searchTerm) ||
+      framework.details.releaseYear.toString().includes(_searchTerm);
 
-    // Ubah pemanggilan state menggunakan dataForm.selectedTag
     const matchesTag = dataForm.selectedTag
       ? framework.tags.includes(dataForm.selectedTag)
       : true;
 
     return matchesSearch && matchesTag;
   });
-
-  const allTags = [
-    ...new Set(frameworkData.flatMap((framework) => framework.tags)),
-  ];
-
+  // Get unique tags
+  const allTags = Array.from(new Set(frameworkData.flatMap((f) => f.tags)));
   return (
-    <div className="min-h-screen bg-gray-100 p-6 md:p-10">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Framework Explorer 🚀
-        </h1>
+    <div className="min-h-screen bg-gray-50 p-8 font-sans text-gray-800">
+      <div className="max-w-4xl mx-auto">
+        {/* Simple Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Frameworks</h1>
+          <p className="text-gray-600">
+            List of available development frameworks
+          </p>
+        </div>
 
-        <div className="bg-white p-4 rounded-xl shadow-md mb-6 flex flex-col md:flex-row gap-4">
-          {/* Update Input: Tambah properti name dan gunakan handleChange */}
+        {/* Simple List */}
+        <div className="space-y-4">
           <input
-            name="searchTerm"
             type="text"
+            name="searchTerm"
             placeholder="Search framework..."
-            className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-2 border border-gray-300 rounded mb-4"
             onChange={handleChange}
-            value={dataForm.searchTerm}
           />
 
-          {/* Update Select: Tambah properti name dan gunakan handleChange */}
           <select
             name="selectedTag"
-            className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-2 border border-gray-300 rounded mb-4"
             onChange={handleChange}
-            value={dataForm.selectedTag}
           >
             <option value="">All Tags</option>
             {allTags.map((tag, index) => (
@@ -69,45 +68,51 @@ export default function FrameworkListSearchFilter() {
               </option>
             ))}
           </select>
-        </div>
-
-        {/* Card List */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {filteredFrameworks.map((item) => (
+          {filteredFrameworks.map((item, index) => (
             <div
               key={item.id}
-              className="bg-white rounded-xl shadow-md p-5 hover:shadow-xl transition duration-300 border border-gray-200"
+              className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md hover:border-gray-300 transition-all duration-200"
             >
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                {item.name}
-              </h2>
-              <p className="text-gray-600 mb-3">{item.description}</p>
-              
+              <div className="flex justify-between items-start mb-2">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  {item.name}
+                </h2>
+                <span className="text-sm text-gray-500">
+                  {item.details.releaseYear}
+                </span>
+              </div>
+
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                {item.description}
+              </p>
+
+              <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
+                <span>By {item.details.developer}</span>
+                <span>•</span>
+                <a
+                  href={item.details.officialWebsite}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  Website
+                </a>
+              </div>
+
               <div className="flex flex-wrap gap-2">
                 {item.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="bg-blue-100 text-blue-700 text-xs font-medium px-3 py-1 rounded-full"
+                    className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full border border-gray-200"
                   >
-                    #{tag}
+                    {tag}
                   </span>
                 ))}
               </div>
             </div>
           ))}
         </div>
-
-        {/* Empty State */}
-        {filteredFrameworks.length === 0 && (
-          <p className="text-center text-gray-500 mt-10">
-            No frameworks found 😢
-          </p>
-        )}
       </div>
     </div>
   );
 }
-
-
-
-
