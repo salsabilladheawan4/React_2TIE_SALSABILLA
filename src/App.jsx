@@ -1,54 +1,38 @@
 import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import "./assets/tailwind.css";
+import "./assets/tailwind.css"; // Pastikan CSS utama diimpor
 import Loading from "./components/Loading";
 
-/**
- * 1. Lazy Loading Halaman Utama (Sedap Admin)
- */
-const Dashboard = React.lazy(() => import("./pages/Dashboard"));
-const Orders = React.lazy(() => import("./pages/Orders"));
-const Customers = React.lazy(() => import("./pages/Customers"));
-const NotFound = React.lazy(() => import("./pages/NotFound"));
-
-/**
- * 2. Lazy Loading Halaman Autentikasi
- */
-const Login = React.lazy(() => import("./pages/auth/Login"));
-const Register = React.lazy(() => import("./pages/auth/Register"));
-const Forgot = React.lazy(() => import("./pages/auth/Forgot"));
-
-/**
- * 3. Layouts
- * MainLayout akan membungkus Sidebar Sedap dan Header.
- */
+// Lazy Loading Layouts
 const MainLayout = React.lazy(() => import("./layouts/MainLayout"));
+const GuestLayout = React.lazy(() => import("./layouts/GuestLayout"));
 const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"));
+
+// Lazy Loading Pages
+const Home = React.lazy(() => import("./pages/Home")); // Gunakan Home.jsx yang lengkap tadi
+const Login = React.lazy(() => import("./pages/auth/Login"));
+const LayananGuest = React.lazy(() => import("./pages/LayananGuest")); // Tambahkan rute Layanan
+const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 
 function App() {
   return (
-    /* Menggunakan komponen Loading.jsx sebagai fallback saat transisi */
     <Suspense fallback={<Loading />}>
       <Routes>
-        
-        {/* GRUP SEDAP ADMIN (Dengan Sidebar & Header) */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/customers" element={<Customers />} />
-          <Route path="*" element={<NotFound />} />
+        {/* RUTE GUEST (Tampilan Utama & Layanan) */}
+        <Route element={<GuestLayout />}>
+          <Route path="/" element={<Home />} /> {/* Menggunakan Home sebagai halaman utama */}
+          <Route path="/layanan" element={<LayananGuest />} /> {/* Halaman Cek Poin & Pesanan */}
         </Route>
 
-        {/* GRUP AUTENTIKASI (Halaman Login/Daftar) */}
+        {/* RUTE AUTH (Login/Register) */}
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot" element={<Forgot />} />
         </Route>
 
-        {/* HALAMAN TIDAK DITEMUKAN */}
-        
-        
+        {/* RUTE ADMIN (Dashboard) */}
+        <Route element={<MainLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
       </Routes>
     </Suspense>
   );

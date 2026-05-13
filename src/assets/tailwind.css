@@ -1,38 +1,64 @@
 @import "tailwindcss";
 
+/* 1. Registrasi Font dari folder public/fonts Anda */
 @font-face {
     font-family: "Barlow";
-    src:url("/public/fonts/Barlow-Regular.ttf");
+    src: url("/fonts/Barlow-Regular.ttf"); /* Jalur diperbaiki agar terbaca oleh Vite/Vercel */
 }
 
 @font-face {
     font-family: "Poppins";
-    src:url("/public/fonts/Poppins.ttf");
+    src: url("/fonts/Poppins-Regular.ttf");
 }
-
 
 @font-face {
     font-family: "Poppins-Extrabold";
-    src:url("/public/fonts/Poppins-ExtraBold.ttf");
+    src: url("/fonts/Poppins-ExtraBold.ttf");
 }
 
+/* 2. Definisi Tema CSS Variable (Sesuai Konfigurasi Tailwind v4/Modern) */
 @theme {
   --font-barlow: "Barlow", sans-serif;
   --font-poppins: "Poppins", sans-serif;
-  --font-poppins-extrabold: "Poppins-ExtraBold", sans-serif;
-
+  --font-poppins-extrabold: "Poppins-Extrabold", sans-serif;
 
   --color-latar: #f3f4f6;
-    --color-teks: #374151; 
-    --color-teks-samping: #6b7280;
-    --color-garis: #e5e7eb; 
-    --color-hijau: #00B074; 
-    --color-merah: #ef4444; 
-    --color-biru: #3b82f6;
-    --color-kuning: #f59e0b; 
+  --color-teks: #374151; 
+  --color-teks-samping: #6b7280;
+  --color-garis: #e5e7eb; 
+  --color-hijau: #00B074; 
+  --color-merah: #ef4444; 
+  --color-biru: #3b82f6;
+  --color-kuning: #f59e0b;
+  --color-orange-sedap: #fb923c; /* Aksen oranye untuk tema bento/sedap */
 }
 
+/* 3. Base Styles */
 body {
-    @apply font-barlow;
+    @apply font-poppins text-gray-900 antialiased bg-[#FFFBF7]; /* Latar belakang lembut sesuai referensi */
 }
 
+/* 4. Custom Utilities untuk Tampilan Bento */
+
+/* Animasi Melayang untuk Gambar Makanan (Hero Section) */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(3deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(3deg); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Pola Titik-titik Latar Belakang (Dot Pattern) */
+.bg-pattern {
+  background-image: radial-gradient(var(--color-orange-sedap) 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
+  opacity: 0.1;
+}
+
+/* Efek Glassmorphism untuk Navbar */
+.glass {
+  @apply bg-white/80 backdrop-blur-md border-b border-white/20;
+}
