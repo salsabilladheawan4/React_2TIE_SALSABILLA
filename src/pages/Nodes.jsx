@@ -1,20 +1,50 @@
-import React, { useState } from "react";
-import { nodesAPI } from "../services/nodesAPI"; // Mengimpor konfigurasi API yang sudah diperbaiki
+import React, { useState, useEffect } from "react";
+import { nodesAPI } from "../services/nodesAPI"; 
+import { useNavigate } from "react-router-dom"; // Impor useNavigate untuk redirect setelah logout
 
-export default function Nodes({ loadNotes }) {
-  // State manajemen pengiriman data
+// Mengimpor komponen pembantu dari folder components Anda
+import LoadingSpinner from "../components/LoadingSpinner";
+import EmptyState from "../components/EmptyState";
+import GenericTable from "../components/GenericTable";
+import { AiFillDelete } from "react-icons/ai";
+
+export default function Nodes() {
+  const navigate = useNavigate(); // Inisialisasi fungsi navigasi rute
+  
+  // State manajemen data catatan
+  const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // State form input
+  // State form input baru
   const [dataForm, setDataForm] = useState({
     title: "",
     content: "",
-    status: "active" 
+    status: "active"
   });
 
-  // Handle perubahan nilai input form
+  // Ambil data catatan otomatis saat pertama kali halaman di-render
+  useEffect(() => {
+    loadNotes();
+  }, []);
+
+  // Fungsi memanggil fetchNotes beserta penanganan loading & error
+  const loadNotes = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const data = await nodesAPI.fetchNotes();
+      setNotes(data || []);
+    } catch (err) {
+      setError("Gagal memuat catatan");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Menangani perubahan ketikan pada form input
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setDataForm({
@@ -23,31 +53,26 @@ export default function Nodes({ loadNotes }) {
     });
   };
 
-  // Handle form submission untuk membuat catatan baru via API
+  // Menangani submit form untuk menyimpan catatan baru ke Supabase
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       setLoading(true);
       setError("");
       setSuccess("");
 
-      // Mengirimkan data form ke database Supabase
       await nodesAPI.createNote(dataForm);
 
       setSuccess("Catatan berhasil ditambahkan!");
 
-      // Mengosongkan Form setelah Berhasil
+      // Kosongkan form kembali setelah sukses memasukkan data
       setDataForm({ title: "", content: "", status: "active" });
 
-      // Menghilangkan pesan sukses setelah 3 detik
+      // Hilangkan notifikasi sukses setelah 3 detik
       setTimeout(() => setSuccess(""), 3000);
-      
-      // Panggil ulang loadNotes jika dikirim melalui props parent component
-      if (typeof loadNotes === "function") {
-        loadNotes();
-      }
-      
+
+      // Panggil ulang loadNotes untuk memperbarui isi tabel secara otomatis
+      loadNotes();
     } catch (err) {
       setError(`Terjadi kesalahan: ${err.message || "Gagal menyimpan data"}`);
     } finally {
@@ -55,17 +80,61 @@ export default function Nodes({ loadNotes }) {
     }
   };
 
+  // Handle untuk aksi hapus data
+  const handleDelete = async (id) => {
+    const konfirmasi = confirm("Yakin ingin menghapus catatan ini?")
+    if (!konfirmasi) return
+
+    try {
+        setLoading(true)
+        setError("")
+        setSuccess("")
+
+        await nodesAPI.deleteNote(id)
+        setSuccess("Catatan berhasil dihapus!")
+        setTimeout(() => setSuccess(""), 3000);
+
+        // Refresh data
+        loadNotes()
+    } catch (err) {
+        setError(`Terjadi kesalahan: ${err.message}`)
+    } finally {
+        setLoading(false)
+    }
+  }
+
+  // ================= FUNGSI LOGOUT BARU =================
+  const handleLogout = () => {
+    const konfirmasiLog = confirm("Apakah Anda yakin ingin keluar dari sistem?");
+    if (!konfirmasiLog) return;
+
+    // 1. Hapus data session user dari local storage komputer
+    localStorage.removeItem("userSession");
+
+    // 2. Alihkan secara paksa kembali ke halaman login
+    navigate("/login");
+  };
+
   return (
     <div className="p-10 bg-gray-50 min-h-screen">
       
-      {/* Header Halaman */}
-      <h1 className="text-[28px] font-bold text-gray-900 mb-8 font-poppins">
-        Nodes App
-      </h1>
+      {/* Header Halaman dengan Tombol Logout di Ujung Kanan */}
+      <div className="flex items-center justify-between max-w-[850px] mb-8">
+        <h1 className="text-[28px] font-bold text-gray-900 font-poppins">
+          Nodes App
+        </h1>
+        {/* Tombol Logout Merah Minimalis */}
+        <button
+          onClick={handleLogout}
+          type="button"
+          className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium text-sm rounded-xl transition-all shadow-sm active:scale-95"
+        >
+          Logout
+        </button>
+      </div>
 
-      {/* Kartu Form Putih */}
-      <div className="bg-white p-8 rounded-2xl shadow-sm max-w-[650px]">
-        
+      {/* Form Card */}
+      <div className="bg-white p-8 rounded-2xl shadow-sm max-w-[650px] mb-10">
         <h2 className="text-[17px] font-bold text-gray-950 mb-6 font-poppins">
           Tambah Catatan Baru
         </h2>
@@ -84,9 +153,7 @@ export default function Nodes({ loadNotes }) {
           </div>
         )}
 
-        {/* Form Utama */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          
           <input
             type="text"
             name="title"
@@ -116,16 +183,69 @@ export default function Nodes({ loadNotes }) {
           <button
             type="submit"
             disabled={loading}
-            className={`mt-6 px-6 py-3 text-white font-semibold text-[15px] rounded-lg transition-all shadow-md ${
-              loading 
-                ? "bg-gray-400 cursor-not-allowed" 
-                : "bg-[#00A76F] hover:bg-green-700"
+            className={`mt-4 px-6 py-3 text-white font-semibold text-[15px] rounded-lg transition-all shadow-md ${
+              loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#00A76F] hover:bg-green-700"
             }`}
           >
             {loading ? "Mohon Tunggu..." : "Tambah Catatan"}
           </button>
         </form>
       </div>
+
+      {/* ================= TABLE STATE RENDERING ================= */}
+      
+      {loading && notes.length === 0 && (
+        <LoadingSpinner text="Memuat catatan..." />
+      )}
+
+      {!loading && notes.length === 0 && !error && (
+        <EmptyState text="Belum ada catatan. Tambah catatan pertama!" />
+      )}
+
+      {!loading && notes.length === 0 && error && (
+        <EmptyState text="Terjadi Kesalahan. Coba lagi nanti." />
+      )}
+
+      {!loading && notes.length > 0 ? (
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden max-w-[850px]">
+          <div className="px-6 py-5 border-b border-gray-50">
+            <h3 className="text-base font-bold text-gray-900 font-poppins">
+              Daftar Catatan ({notes.length})
+            </h3>
+          </div>
+
+          <GenericTable
+            columns={["#", "Judul", "Isi Catatan", "Aksi"]}
+            data={notes}
+            renderRow={(note, index) => (
+              <>
+                <td className="px-6 py-4 font-semibold text-gray-400 font-poppins text-sm w-16">
+                  {index + 1}.
+                </td>
+                <td className="px-6 py-4 font-poppins text-sm font-semibold text-emerald-600 max-w-[200px] truncate">
+                  {note.title}
+                </td>
+                <td className="px-6 py-4 max-w-xs font-poppins text-sm text-gray-600">
+                  <div className="truncate">
+                    {note.content}
+                  </div>
+                </td>
+                <td className="px-6 py-4 max-w-xs">
+                  <div className="truncate text-gray-600">
+                      <button
+                          onClick={() => handleDelete(note.id)}
+                          disabled={loading}
+                          type="button"
+                      >
+                          <AiFillDelete className="text-red-400 text-2xl hover:text-red-600 transition-colors" />
+                      </button>
+                  </div>
+                </td>
+              </>
+            )}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
