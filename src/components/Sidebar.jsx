@@ -1,3 +1,4 @@
+import { MdFastfood } from "react-icons/md"; 
 import { AiOutlineUserAdd } from "react-icons/ai"; 
 import { AiOutlineUnorderedList } from "react-icons/ai"; 
 import { RiDashboardFill } from "react-icons/ri"; 
@@ -41,6 +42,11 @@ export default function Sidebar() {
                         <NavLink id="menu-3"to="/customers" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
                             <AiOutlineUserAdd  className="mr-4 text-xl"/>
                             Customers</NavLink>
+                      </li>
+                      <li>
+                        <NavLink id="menu-4"to="/products" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
+                            <MdFastfood className="mr-4 text-xl"/>
+                            Products</NavLink>
                       </li>
                 </ul>
             </div>
