@@ -1,19 +1,19 @@
 import { MdFastfood } from "react-icons/md"; 
 import { AiOutlineUserAdd } from "react-icons/ai"; 
 import { AiOutlineUnorderedList } from "react-icons/ai"; 
+// Tambahkan import ikon baru untuk Nodes (AiOutlineForm) di sini
+import { AiOutlineForm } from "react-icons/ai"; 
 import { RiDashboardFill } from "react-icons/ri"; 
 import { Link, NavLink } from "react-router-dom";
 
 export default function Sidebar() {
 
-
         const menuClass = ({ isActive }) =>
-        `flex cursor-pointer items-center rounded-xl p-4  space-x-2
+        `flex cursor-pointer items-center rounded-xl p-4 space-x-2
         ${isActive ? 
             "text-hijau bg-green-200 font-extrabold" : 
             "text-gray-600 hover:text-hijau hover:bg-green-200 hover:font-extrabold"
         }`;
-
 
     return (
         <div id="sidebar" className="flex min-h-screen w-90 flex-col bg-white p-10 shadow-lg">
@@ -29,24 +29,31 @@ export default function Sidebar() {
             <div id="sidebar-menu" className="mt-10">
                 <ul id="menu-list"className="space-y-3">
                     <li>
-                        <NavLink id="menu-1"to="/" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
+                        <NavLink id="menu-1" to="/" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
                             <RiDashboardFill  className="mr-4 text-xl"/>
                             Dashboard</NavLink>
                       </li>
                     <li>
-                        <NavLink id="menu-2"to="/orders" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
+                        <NavLink id="menu-2" to="/orders" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
                             <AiOutlineUnorderedList  className="mr-4 text-xl" />
                             Orders</NavLink>
                       </li>
                       <li>
-                        <NavLink id="menu-3"to="/customers" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
+                        <NavLink id="menu-3" to="/customers" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
                             <AiOutlineUserAdd  className="mr-4 text-xl"/>
                             Customers</NavLink>
                       </li>
                       <li>
-                        <NavLink id="menu-4"to="/products" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
+                        <NavLink id="menu-4" to="/products" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
                             <MdFastfood className="mr-4 text-xl"/>
                             Products</NavLink>
+                      </li>
+                      
+                      {/* === MENU BARU: NODES === */}
+                      <li>
+                        <NavLink id="menu-5" to="/nodes" className="hover:text-hijau flex cursor-pointer items-center rounded-xl p-4 font-medium text-gray-600 hover:bg-green-200 hover:font-extrabold">
+                            <AiOutlineForm className="mr-4 text-xl"/>
+                            Nodes</NavLink>
                       </li>
                 </ul>
             </div>
